@@ -25,6 +25,7 @@ public class LevelGenerator : MonoBehaviour
         }
 
         Vector2 startPoint = Vector2.zero;
+
         for (int i = 0; i < groupNumber; ++i)
         {
             startPoint = geometryGenerator.GenerateGeometry(rhythmGroups[i], startPoint);
