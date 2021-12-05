@@ -162,6 +162,7 @@ MonoBehaviour:
   shortJump: 5
   mediumJump: 8
   longJump: 10
+  canJump: 0
 --- !u!50 &242385236
 Rigidbody2D:
   serializedVersion: 4
@@ -178,7 +179,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 288de26ab35b06c4b813318188dbca3f, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -374,7 +375,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 786fff667338379499303d813080075a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  groupNumber: 10
+  groupNumber: 5
   minTotalTime: 10
   maxTotalTime: 15
   endingBlock: {fileID: 1376178579821798693, guid: 0aa19926eff5e36409194e994a35044f, type: 3}
@@ -421,4 +422,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 242385234}
-  lerpSpeed: 1
+  lerpSpeed: 0.5
+  zoomFactor: 0.25
