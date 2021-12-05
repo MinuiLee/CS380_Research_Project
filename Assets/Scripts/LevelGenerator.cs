@@ -13,6 +13,8 @@ public class LevelGenerator : MonoBehaviour
 
     List<RhythmGroup> rhythmGroups = new List<RhythmGroup>();
 
+    public GameObject endingBlock;
+
     private void Start()
     {
         rhythmGroupGenerator = GetComponent<RhythmGroupGenerator>();
@@ -30,5 +32,8 @@ public class LevelGenerator : MonoBehaviour
         {
             startPoint = geometryGenerator.GenerateGeometry(rhythmGroups[i], startPoint);
         }
+
+        GameObject block = Instantiate(endingBlock, startPoint, Quaternion.identity);
+        block.transform.localScale = new Vector3(1, 1000, 1);
     }
 }
