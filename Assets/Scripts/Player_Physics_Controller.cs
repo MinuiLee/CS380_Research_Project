@@ -35,6 +35,9 @@ public class Player_Physics_Controller : MonoBehaviour
     public float longJump;
     private Rigidbody2D RB;
 
+    public bool canJump = false;
+    public bool spaceUp = true;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,9 +56,11 @@ public class Player_Physics_Controller : MonoBehaviour
     void Update()
     {
         //Calculating the time for a space bar press 
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && canJump)
         {
             buttonPressStartTime = Time.time;
+            canJump = false;
+            spaceUp = false;
         }
 
         if (Input.GetKey(KeyCode.D))
@@ -69,7 +74,7 @@ public class Player_Physics_Controller : MonoBehaviour
         }
 
         //Determing the type of  jump the player will do.
-        if (Input.GetKey(KeyCode.Space) == true && buttonPressStartTime != 0.0f)
+        if (Input.GetKey(KeyCode.Space) == true && buttonPressStartTime != 0.0f && !spaceUp)
         {
             spaceButtonPressLength = Time.time - buttonPressStartTime;
             jumpType = TypeOfJump(spaceButtonPressLength);
@@ -99,6 +104,10 @@ public class Player_Physics_Controller : MonoBehaviour
                 buttonPressStartTime = 0.0f;
         }
         
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            spaceUp = true;
+        }
     }
 
     //Returns 0 = short, 1 = medium, 2 = long (JUMPS)
@@ -139,5 +148,11 @@ public class Player_Physics_Controller : MonoBehaviour
     private float CalculateJumpVelocity(float jumpDuration)
     {
         return Mathf.Abs(Physics.gravity.y * jumpDuration);
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        canJump = true;
+        Debug.Log("Jump");
     }
 }
