@@ -29,7 +29,12 @@ public class CameraControl : MonoBehaviour
 
     private void CameraZoom()
     {
-        cameraComp.orthographicSize = Mathf.Clamp(originalOrthoSize * (playerTransform.position.y * zoomFactor), originalOrthoSize, Mathf.Infinity);
+        Rigidbody2D playerRD = player.GetComponent<Rigidbody2D>();
+
+        float calculatedOrthoSize = originalOrthoSize * (playerTransform.position.y * zoomFactor);
+        float clampedOrthoSize = Mathf.Clamp(calculatedOrthoSize, originalOrthoSize, Mathf.Infinity);
+        float newOrthoSize = Mathf.Lerp(cameraComp.orthographicSize, clampedOrthoSize, Mathf.Clamp(Time.deltaTime * (playerRD.velocity.magnitude * lerpSpeed), Time.deltaTime, Mathf.Infinity)); ;
+        cameraComp.orthographicSize = newOrthoSize;
     }
 
     private void CameraFollow()
@@ -39,7 +44,7 @@ public class CameraControl : MonoBehaviour
         Rigidbody2D playerRD = player.GetComponent<Rigidbody2D>();
 
         newPos.x = player.transform.position.x;
-        newPos.y = Mathf.Lerp(transform.position.y, player.transform.position.y, Time.deltaTime * (playerRD.velocity.magnitude * lerpSpeed));
+        newPos.y = Mathf.Lerp(transform.position.y, player.transform.position.y, Mathf.Clamp(Time.deltaTime * (playerRD.velocity.magnitude * lerpSpeed), Time.deltaTime, Mathf.Infinity));
         transform.position = newPos;
     }
 }

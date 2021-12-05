@@ -163,6 +163,7 @@ MonoBehaviour:
   mediumJump: 8
   longJump: 10
   canJump: 0
+  spaceUp: 1
 --- !u!50 &242385236
 Rigidbody2D:
   serializedVersion: 4
@@ -422,5 +423,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 242385234}
-  lerpSpeed: 0.5
+  lerpSpeed: 0.25
   zoomFactor: 0.25
