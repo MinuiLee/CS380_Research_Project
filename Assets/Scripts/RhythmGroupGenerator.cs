@@ -38,7 +38,18 @@ public class RhythmGroupGenerator : MonoBehaviour
 
         //Determing the beat pattern and density at random: This is what we want because it provides more of a variety for the level.
         BEAT_TYPE beatType = (BEAT_TYPE)Random.Range(0, (int)BEAT_TYPE.TOTAL-1); //Chosing at random the rhythm groups beat pattern.
-        DENSITY densityType = (DENSITY)Random.Range(1, (int)DENSITY.TOTAL - 1); //Chosing at random the density for the beat pattern.
+        DENSITY densityType = (DENSITY)Random.Range((int)DENSITY.LOW, (int)DENSITY.TOTAL - 1); //Chosing at random the density for the beat pattern.
+
+        if (Saving_State_Variables.density + (int)DENSITY.LOW < (int)DENSITY.TOTAL)
+        {
+
+            densityType = (DENSITY)Saving_State_Variables.density + (int)DENSITY.LOW;
+        }
+
+        if (Saving_State_Variables.beatPattern < (int)BEAT_TYPE.TOTAL)
+        {
+            beatType = (BEAT_TYPE)Saving_State_Variables.beatPattern;
+        }
 
         group.AddRhythm(ACTION.MOVE, 0, totalTime);
 

@@ -17,6 +17,9 @@ public class LevelGenerator : MonoBehaviour
 
     private void Start()
     {
+        minTotalTime = Saving_State_Variables.minTotalTime;
+        maxTotalTime = Saving_State_Variables.maxTotalTime;
+
         rhythmGroupGenerator = GetComponent<RhythmGroupGenerator>();
         geometryGenerator = GetComponent<GeometryGenerator>();
 
