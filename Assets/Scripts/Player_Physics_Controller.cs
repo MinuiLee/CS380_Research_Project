@@ -100,7 +100,7 @@ public class Player_Physics_Controller : MonoBehaviour
                     break;
             }
 
-            playerJumpVel = Mathf.Lerp(RB.velocity.y, playerJumpVel, 0.1f);
+            playerJumpVel = Mathf.Lerp(RB.velocity.y, playerJumpVel, 0.5f);
 
             RB.velocity = new Vector2(RB.velocity.x, playerJumpVel);
 
