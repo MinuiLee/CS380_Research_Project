@@ -9,6 +9,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class Player_Physics_Controller : MonoBehaviour
 {
@@ -99,11 +100,11 @@ public class Player_Physics_Controller : MonoBehaviour
                     break;
             }
 
-            playerJumpVel = Mathf.Lerp(RB.velocity.y, playerJumpVel, 0.5f);
+            playerJumpVel = Mathf.Lerp(RB.velocity.y, playerJumpVel, 0.1f);
 
             RB.velocity = new Vector2(RB.velocity.x, playerJumpVel);
 
-            if (spaceButtonPressLength >= 1.0f)
+            if (spaceButtonPressLength >= 2.0f)
                 buttonPressStartTime = 0.0f;
         }
         

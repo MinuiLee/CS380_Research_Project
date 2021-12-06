@@ -6,6 +6,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 //Used for movement and jump states for processing the rhythms.
 public class rhythmQueue
@@ -100,7 +101,7 @@ public class GeometryGenerator : MonoBehaviour
                     height -= height / 4.0f;
                 }
 
-                CreateDangerousBlock(endPoint.x, endPoint.y, length - length / 4.0f, height);
+                CreateDangerousBlock(endPoint.x, endPoint.y, length - length / 4.0f, height, jumpType);
             }
             else
             {
@@ -116,14 +117,14 @@ public class GeometryGenerator : MonoBehaviour
                         height -= height / 2.5f;
                     }
 
-                    CreateDangerousBlockTiered(endPoint.x, endPoint.y, length - length / 6.0f, height);
+                    CreateDangerousBlockTiered(endPoint.x, endPoint.y, length - length / 6.0f, height, jumpType);
                 }
                 else
                 {
                     if (randJump == 2)
                     {
                         float oldX = endPoint.x;
-                        CreateDangerousBlock(endPoint.x, endPoint.y, length, height);
+                        CreateDangerousBlock(endPoint.x, endPoint.y, length, height, jumpType);
 
                         CreateStraightBlockAboveDanger(oldX, endPoint.y + height, length);
                     }
@@ -216,20 +217,66 @@ public class GeometryGenerator : MonoBehaviour
 
     //Geometry functions that the geometry generator uses to place platforms. (Still needs more variation in the platforms for jumps but it would go here.)
 
-    private void CreateDangerousBlock(float xLeft, float yTop, float length, float height)
+    private void CreateDangerousBlock(float xLeft, float yTop, float length, float height, int type)
     {
         GameObject block = Instantiate(dangerPlatform, Vector3.zero, Quaternion.identity);
         block.transform.localScale = new Vector3(length, height, 1);
         block.transform.position = new Vector3(xLeft + length / 2, yTop + height/2, 0);
 
+        GameObject child = block.transform.GetChild(0).gameObject;
+
+        TMPro.TMP_Text blockText = child.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>();
+
+        if (type == 0)
+        {
+            blockText.text = "Short Jump";
+        }
+        else
+        {
+            if (type == 1)
+            {
+                blockText.text = "Medium Jump";
+            }
+            else
+            {
+                if (type == 2)
+                {
+                    blockText.text = "Long Jump";
+                }
+            }
+        }
+
         endPoint += new Vector2(length, 0);
     }
 
-    private void CreateDangerousBlockTiered(float xLeft, float yTop, float length, float height)
+    private void CreateDangerousBlockTiered(float xLeft, float yTop, float length, float height, int type)
     {
         GameObject block = Instantiate(dangerPlatformTiered, Vector3.zero, Quaternion.identity);
         block.transform.localScale = new Vector3(length, height, 1);
         block.transform.position = new Vector3(xLeft + length / 2, yTop + height / 2, 0);
+
+        GameObject child = block.transform.GetChild(0).gameObject;
+
+        TMPro.TMP_Text blockText = child.transform.GetChild(0).gameObject.GetComponent<TMPro.TMP_Text>();
+
+        if(type == 0)
+        {
+            blockText.text = "Short Jump";
+        }
+        else
+        {
+            if (type == 1)
+            {
+                blockText.text = "Medium Jump";
+            }
+            else
+            {
+                if (type == 2)
+                {
+                    blockText.text = "Long Jump";
+                }
+            }
+        }
 
         endPoint += new Vector2(length, 0);
     }

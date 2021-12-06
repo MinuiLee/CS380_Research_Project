@@ -289,6 +289,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementXSpeed: 0
+  jumpSlider: {fileID: 0}
   shortJumpDuration: 0
   mediumJumpDuration: 0
   longJumpDuration: 0
