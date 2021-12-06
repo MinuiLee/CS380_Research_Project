@@ -33,8 +33,6 @@ public class Menu_State_Logic : MonoBehaviour
         Saving_State_Variables.minTotalTime = int.Parse(minText.text);
         Saving_State_Variables.maxTotalTime = int.Parse(maxText.text);
 
-        Debug.Log("minTime: " + Saving_State_Variables.minTotalTime);
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 }

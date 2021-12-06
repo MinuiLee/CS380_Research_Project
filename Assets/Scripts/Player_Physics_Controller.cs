@@ -45,6 +45,9 @@ public class Player_Physics_Controller : MonoBehaviour
         RB = GetComponent<Rigidbody2D>();
         spaceButtonPressLength = 0.0f;
         playerJumpVel = 0.0f;
+        shortJump = 3.0f;
+        mediumJump = 10.0f;
+        longJump =  20.0f;
 
         //calculating jump durations given the heights of each type of jump.
         shortJumpDuration = CalculateJumpDuration(shortJump);

@@ -68,6 +68,8 @@ public class RhythmGroupGenerator : MonoBehaviour
 
                 float jumpDuration = 0.0f;
 
+                
+
                 switch (jumpType)
                 {
                     case 0:
@@ -97,7 +99,7 @@ public class RhythmGroupGenerator : MonoBehaviour
     {
         List<float> beats = new List<float>();
 
-        float density = Mathf.Sqrt((float)densityType * 3f);
+        float density = (int) densityType;
         int size = (int)Mathf.Floor(totalTime / (float)density);
 
         float shortBeat = totalTime / (2 * (totalTime - 1));

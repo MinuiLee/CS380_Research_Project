@@ -540,6 +540,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   safePlatform: {fileID: 6269890967592263686, guid: 736ef1746c10f174dacad40acc6aeee6, type: 3}
   dangerPlatform: {fileID: 4536327089116866226, guid: 6fccfaaceaff32a4d80012f3610294d4, type: 3}
+  dangerPlatformTiered: {fileID: 6531955085904735637, guid: fc10f23978c40714abc8819608c8aeb4, type: 3}
   physicsData: {fileID: 242385234}
   minHeight: 1
   maxHeight: 2

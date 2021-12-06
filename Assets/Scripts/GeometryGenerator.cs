@@ -26,6 +26,7 @@ public class GeometryGenerator : MonoBehaviour
 {
     public GameObject safePlatform;
     public GameObject dangerPlatform;
+    public GameObject dangerPlatformTiered;
     public GameObject physicsData;
     private Player_Physics_Controller controller;
 
@@ -43,7 +44,7 @@ public class GeometryGenerator : MonoBehaviour
         endPoint = startPoint;
 
         float height = 0.0f;
-        float length = 4.0f;
+        float length = 10.0f;
 
         CreateRestBlock(endPoint.x, endPoint.y, length); //create a rest block in between rhythms to give the player a break from the rhythms.
 
@@ -64,26 +65,78 @@ public class GeometryGenerator : MonoBehaviour
             switch (jumpType)
             {
                 case 0:
-                    height = controller.shortJumpDuration;
+                    height = controller.shortJump;
                     break;
                 case 1:
-                    height = controller.mediumJumpDuration;
+                    height = controller.mediumJump;
                     break;
                 case 2:
-                    height = controller.longJumpDuration;
+                    height = controller.longJump;
                     break;
                 default:
-                    height = controller.shortJumpDuration;
+                    height = controller.shortJump;
                     break;
             }
 
             float jumpTime =  controller.CalculateJumpDuration(height);
             length = jumpTime * controller.movementXSpeed; //Figure out the distance traveled in the x direction given the jump height.
 
-            CreateDangerousBlock(endPoint.x, endPoint.y, length, height);
+            int randJump = Random.Range(0, 3);
+
+            if(randJump == 0)
+            {
+                if (jumpType == 0)
+                {
+                    height -= 1.0f;
+                }
+
+                if (jumpType == 1)
+                {
+                    height -= height / 6.0f;
+                }
+
+                if (jumpType == 2)
+                {
+                    height -= height / 4.0f;
+                }
+
+                CreateDangerousBlock(endPoint.x, endPoint.y, length - length / 4.0f, height);
+            }
+            else
+            {
+                if (randJump == 1)
+                {
+                    if (jumpType == 1)
+                    {
+                        height -= height / 3.0f;
+                    }
+
+                    if (jumpType == 2)
+                    {
+                        height -= height / 2.5f;
+                    }
+
+                    CreateDangerousBlockTiered(endPoint.x, endPoint.y, length - length / 6.0f, height);
+                }
+                else
+                {
+                    if (randJump == 2)
+                    {
+                        float oldX = endPoint.x;
+                        CreateDangerousBlock(endPoint.x, endPoint.y, length, height);
+
+                        CreateStraightBlockAboveDanger(oldX, endPoint.y + height, length);
+                    }
+                }
+            }
 
             //With remaining time left after the jump create a move block.
             float timeLeft = rhythmDuration - jumpTime;
+
+
+            //Jump to next platform
+            //Basic square platfrom
+            //Stacked platform
 
             if(timeLeft > 0.0f)
             {
@@ -110,21 +163,51 @@ public class GeometryGenerator : MonoBehaviour
             {
                 float waitTime = rhythm.start - lastBeatTime;
                 lastBeatTime = rhythm.start;
-                movementState.Add(new rhythmQueue(waitTime, (int)ACTION.WAIT));
+
+                if(waitTime > 0.0f)
+                {
+                    movementState.Add(new rhythmQueue(waitTime, (int)ACTION.WAIT));
+                    Debug.Log("Waiting: " + waitTime);
+                }
             }
 
             if(rhythm.action == ACTION.MOVE)
             {
                 movementState.Add(new rhythmQueue(rhythm.end - rhythm.start, (int) ACTION.MOVE));//Move contains length of move.
+                Debug.Log("moving: " + (rhythm.end - rhythm.start));
+
             }
 
             if (rhythm.action == ACTION.JUMP)
             {
                 float jumpDuration = rhythm.end - rhythm.start;
+                int jumpType = 0;
 
-                int jumpType = controller.TypeOfJump(jumpDuration);
+                Debug.Log("jumpingdur: " + jumpDuration);
+
+                if (jumpDuration <= controller.shortJumpDuration)
+                {
+                    jumpType = 0;
+                }
+                else
+                {
+                    if (jumpDuration >= controller.mediumJumpDuration && jumpDuration < controller.longJumpDuration)
+                    {
+                        jumpType = 1;
+                    }
+                    else
+                    {
+                        if (jumpDuration >= controller.longJumpDuration)
+                        {
+                            jumpType = 2;
+                        }
+                    }
+                }
 
                 jumpState.Add(new rhythmQueue(rhythm.start, jumpType)); //start time of jump and type of jump.
+
+                Debug.Log("jumping: " + rhythm.start + " type:" + jumpType);
+
             }
 
             lastBeatTime = rhythm.end; //start time + duration of action.
@@ -142,6 +225,21 @@ public class GeometryGenerator : MonoBehaviour
         endPoint += new Vector2(length, 0);
     }
 
+    private void CreateDangerousBlockTiered(float xLeft, float yTop, float length, float height)
+    {
+        GameObject block = Instantiate(dangerPlatformTiered, Vector3.zero, Quaternion.identity);
+        block.transform.localScale = new Vector3(length, height, 1);
+        block.transform.position = new Vector3(xLeft + length / 2, yTop + height / 2, 0);
+
+        endPoint += new Vector2(length, 0);
+    }
+
+    private void CreateStraightBlockAboveDanger(float xLeft, float yTop, float length)
+    {
+        GameObject block = Instantiate(safePlatform, Vector3.zero, Quaternion.identity);
+        block.transform.localScale = new Vector3(length, 1, 1);
+        block.transform.position = new Vector3(xLeft + length / 2, yTop, 0);
+    }
 
     private void CreateStraightBlock(float xLeft, float yTop, float length)
     {

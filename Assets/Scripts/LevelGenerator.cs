@@ -26,6 +26,7 @@ public class LevelGenerator : MonoBehaviour
         // generate rhythm groups
         for(int i = 0; i < groupNumber; ++i)
         {
+            Debug.Log("group" + i);
             rhythmGroups.Add(rhythmGroupGenerator.GenerateRhythmGroup(Random.Range(minTotalTime, maxTotalTime)));
         }
 
@@ -33,6 +34,7 @@ public class LevelGenerator : MonoBehaviour
 
         for (int i = 0; i < groupNumber; ++i)
         {
+            Debug.Log("group" + i);
             startPoint = geometryGenerator.GenerateGeometry(rhythmGroups[i], startPoint);
         }
 
